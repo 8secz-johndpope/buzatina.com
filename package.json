@@ -1,0 +1,26 @@
+{
+  "name": "buzatina.com",
+  "version": "1.0.0",
+  "description": "Answering Business Questions",
+  "engines": {
+    "node": "7.2.1"
+  },
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tebogo Ntlatleng",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.7.17",
+    "express": "^4.14.0",
+    "sendgrid": "^4.7.1",
+    "socket.io": "^1.7.2"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buzatina/buzatina.com.git"
+  }
+
+}

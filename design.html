@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>io-chat</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.6.3.min.js"></script>
+<script src="moment.min.js"></script>
+<script type="text/javascript" src="jsbn.js"></script>
+<script type="text/javascript" src="jsbn2.js"></script>
+<script type="text/javascript" src="sjcl.js"></script>
+<script type="text/javascript" src="aws-cognito-sdk.min.js"></script>
+<script type="text/javascript" src="amazon-cognito-identity.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js" ></script>
+<script src="access.js" ></script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-default" style=" margin-bottom: 0px; margin-left: 0px; width: 100%;">
+
+    <div class="container-fluid">
+      
+      <!-- Logo -->
+      <div class="navbar-header">
+          
+          <a href="#">
+            <img style="height: 50px; padding-top: 5px; padding-left: 5px; padding-bottom: 10px;" alt="pineadvice.com" src="pineadvice.jpg"></img>
+          </a>
+          
+          <button style="color: #1b96fe;" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span style="background-color: #4da6ff" class="icon-bar"></span>
+            <span style="background-color: #4da6ff" class="icon-bar"></span>
+            <span style="background-color: #4da6ff" class="icon-bar"></span>
+          </button>
+          <a href="#" class="navbar-left"></a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="myNavbar" >
+
+        <ul class="nav navbar-nav navbar-right">
+
+          <li><a style="color: #003e73" ui-sref="loadTips" data-toggle="collapse" data-target="#myNavbar">My Advice</a></li>
+
+          <li><a style="color: #003e73" ui-sref="home" data-toggle="collapse" data-target="#myNavbar"><span class="glyphicon glyphicon-text-background" aria-hidden="true"></span></a></li>
+
+          <li><a style="color: #003e73" ui-sref="forums" data-toggle="collapse" data-target="#myNavbar"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></li>     
+          <li id="login"><a style="color: #003e73" href="/login" data-toggle="collapse" data-target="#myNavbar">Sign In</a></li>
+          <li id="signUp"><a style="color: #003e73" href="signUp" class="btn w3-blue" style="margin: 10px; color: #1b96fe;" data-toggle="collapse" data-target="#myNavbar">Sign Up</a></li>
+          <li><a style="color: #003e73" ui-sref="profileOptions" data-toggle="collapse" data-target="#myNavbar"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
+          <li id="signOut"><a style="color: #003e73" href="#" data-toggle="collapse" data-target="#myNavbar">Sign Out</a></li>
+ 
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+
+  <div class="row">
+
+    <div class="col-md-3 col-lg-3">
+
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+ 
+
+        <div>
+           <img src="profile.png" style="height: 250px;" class="w3-center">
+           <p class="well well-sm">The most unsuccessful time as an entrepreneur was when I seeked money making opportunities instead of seeking to add value into other peoples lives. Learn to add value where ever you are and money will follow most definitely!</p>
+        </div>
+ 
+    </div>
+
+    <div class="col-sm-3 col-md-3 col-lg-3 hidden-xs hidden-sm">    
+
+    </div>
+
+  </div>
+   
+</body>
+
+</html>

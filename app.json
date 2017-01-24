@@ -1,0 +1,8 @@
+{
+  "name": "buzatina.com",
+  "description": "We Make Asking & Answering Business Questions Easier",
+  "repository": "https://github.com/buzatina/buzatina.com.git",
+  "logo": "https://s3-us-west-2.amazonaws.com/uploadtebogo/buzatina.png",
+  "keywords": ["node", "express", "static"],
+  "image": "heroku/nodejs"
+}
