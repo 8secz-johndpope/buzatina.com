@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>buzatina.com</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+<!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- <script src="/js/bootstrap.min.js"></script> -->
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css"> -->
+<link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
+
+
+<script src="moment.min.js"></script>
+<script type="text/javascript" src="jsbn.js"></script>
+<script type="text/javascript" src="jsbn2.js"></script>
+<script type="text/javascript" src="sjcl.js"></script>
+<script type="text/javascript" src="aws-cognito-sdk.min.js"></script>
+<script type="text/javascript" src="amazon-cognito-identity.min.js"></script>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.6.3.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<style>
+
+  body {
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+  }
+
+  h6 {
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+  }
+
+  h5 {
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+  }
+
+  h4 {
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+  }
+
+  h3 {
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+  }
+
+  h2 {
+    font-family: 'PT Mono', monospace;
+    font-size: 10px;
+  }
+
+  a {
+    color: #2a2b2b
+  }  
+
+  p {
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+  }
+
+</style>
+
+</head>
+
+<body style="background-color: #fdfdfd">
+
+<nav class="navbar" style=" margin-bottom: 0px; margin-left: 0px; width: 100%; background-color: white; border-width: 0.5px; border-bottom-color: #e9e9e9;">
+
+    <div class="container-fluid">
+      
+      <!-- Logo -->
+      <div class="navbar-header">
+          
+          <a href="/">
+            <img style="height: 45px; margin-top: 10px; margin-left: 5px; margin-bottom: 5px;" alt="buzatina.com" src="https://s3-us-west-2.amazonaws.com/uploadtebogo/buzatina_logo.JPG"></img>
+          </a>
+          
+          <button style="color: #1b96fe;" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span style="background-color: black;" class="icon-bar"></span>
+            <span style="background-color: black;" class="icon-bar"></span>
+            <span style="background-color: black;" class="icon-bar"></span>
+          </button>
+
+          <a href="#" class="navbar-left"></a>
+
+      </div>
+
+      <div class="collapse navbar-collapse" id="myNavbar" style="margin-top: 0px; padding-top: 0px;">
+
+        <ul class="nav navbar-nav navbar-right" style="margin-top: 0px; padding-top: 0px;">
+
+          <li id="logoImage"><a href="/settings" data-toggle="collapse" data-target="#myNavbar"><img style="height: 40px; padding-top: 0px; margin-top: 0px; display: none;" src="" id="logoImageSrc"></a></li>
+      
+          <li id="login"><a href="/login" data-toggle="collapse" data-target="#myNavbar">Sign In</a></li>
+
+          <li id="signUp"><a href="signUp" class="btn" style="background-color: #312929; color: white;" data-toggle="collapse" data-target="#myNavbar">Sign Up</a></li>
+
+          <li id="settings" style="display: none;"><a href="/settings" data-toggle="collapse" data-target="#myNavbar"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
+
+          <li id="signOut" style="display: none;"><a href="#" data-toggle="collapse" data-target="#myNavbar">Sign Out</a></li>
+ 
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+
+  <div class="row" style="background-color: #fdfdfd; border-width: 3px; border-bottom-color: black; margin-right: 5px;">
+
+    <div class="col-md-3 col-lg-3">
+
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="padding: 10px; margin-left: 10px;">
+        
+        <div id="promptForm" style="background-color: white; padding: 10px; border-radius: 5px; border: 1px solid #d9d8d5;">
+           <div><a href="/signup" style="color: #1b96fe"><b> Sign Up</b></a> or <a href="/login" style="color: #1b96fe"><b>Login</b></a> to comment on the questions.</div>
+        </div>
+        <br>
+
+        <div style="background-color: white; padding: 10px; border-radius: 5px; border: 1px solid #d9d8d5;">
+          <div id="adviceAuthor"></div>
+          <div id="adviceContent"></div>
+
+
+          <div id="adviceComment" style="display: none;">
+              
+              <form id="adviceCommentForm" class="form-group">
+                  <div class="form-group">
+                      <textarea id="idComment" class="form-control sans" placeholder="comment here..." name="contentAdvice" type="text"></textarea>
+                  </div>
+
+                  <div>
+                       <input id="postComment" type="submit" style="color: #312929; width: 80px;" class="btn" value="Comment"></input>
+                  </div>
+                  
+                  <span id="err_question" style="display: none; color: #1b96fe;"><b>Please ask a question above..</b></span>    
+              </form>
+
+          </div>
+
+          <div id="promptAddUser" style="display: none; background-color: white; padding: 10px; border-radius: 5px; border: 1px solid #d9d8d5;">
+             <div><a href="/settings" style="color: #1b96fe"><b>Add</b></a> <b> a username and a profile picture to ask a question.</b></div>
+          </div>
+
+        </div>
+
+        <br>
+
+        <div id="adviceCommentsLists"></div>
+
+    </div>
+
+    <div class="col-sm-3 col-md-3 col-lg-3 hidden-xs hidden-sm">    
+    </div>
+
+  </div>
+
+  <script>
+
+   var url = window.location.href;
+   var urlSplit = url.split('/');
+   console.log(urlSplit);
+   var idQuestion = urlSplit[4];
+   var idAuthor = urlSplit[5];
+
+   var usernameProfile;
+   var useridProfile;
+   var nameProfile;
+   var profilePicUrlProfile;
+
+   var signOut = function(){
+           console.log('Sign-Out function called');
+
+                var data = {
+                    UserPoolId : 'us-west-2_GQQlNpQpu', // Your user pool id here
+                    ClientId : '2fqeeg1m1vno4l5m4jn4n2gnjv' // Your client id here
+                };
+                var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(data);
+                var cognitoUser = userPool.getCurrentUser();
+
+                if (cognitoUser != null) {
+                    cognitoUser.getSession(function(err, session) {
+                        if (err) {
+                           alert(err);
+                        }
+                        console.log('session validity: ' + session.isValid());
+                        console.log(cognitoUser.username);
+
+                        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                            IdentityPoolId : 'us-west-2:f621a9ab-b4f6-454a-8fed-c2a4aa147af4', // your identity pool id here
+                            Logins : {
+                                // Change the key below according to the specific region your user pool is in.
+                                'cognito-idp.us-west-2.amazonaws.com/us-west-2_GQQlNpQpu' : session.getIdToken().getJwtToken()
+                            }
+                        });
+     
+                       AWS.config.region = 'us-west-2';
+
+                        cognitoUser.signOut();
+                        AWS.config.credentials.clearCachedId();
+
+                    });
+
+                  };
+    };   
+
+    var htmlComments =  function(data){
+
+        ///// List Comments
+
+        console.log(data);
+
+        var htl = '';
+
+        if (data.length > 0) {          
+
+            for (i=0; i<data.length; i++){
+
+              var d = new Date(data[i].commentCreated);
+              var dateShow = d.toDateString();
+
+              htl += '<div>'+
+
+                          '<div class="media-left">'+
+                            '<img src="'+ data[i].userPic + '" style="height:60px">'+
+                          '</div>'+
+
+                          '<div class="media-body">'+
+                              '<blockquote >'+
+                              '<p><a href="/profile/'+data[i].author+'"><b>'+data[i].name+'</b></a></p>'+
+                              '<h4>'+data[i].insight+'</h4>'+
+                              '<h2>'+dateShow+'</h2>'+
+                              '</blockquote>'+                            
+                          '</div>'+
+
+                      '</div>'
+
+            };
+
+            $('#adviceCommentsLists').html(htl);
+        
+        };          
+    };
+
+   var htmlQuestion = function(data){
+
+        var html = '';
+        
+        html += '<div style="margin: 0px;">'+
+                    '<h3> ASKED: '+ data.insight+'? </h3>'
+              +'</div>'+
+              '<br>';
+        $('#adviceContent').html(html);
+
+    };
+
+  var htmlAuthor = function(data){
+            usernameProfile = data.email;
+            useridProfile = data.userid;
+            nameProfile = data.Username;
+            profilePicUrlProfile = data.profilePicUrl;
+
+            var html = '';
+            
+            html += '<div>'+
+
+                      '<h3><a href="/profile/'+data.userid+'"><b>'+data.Username+'</b></a></h3>'+
+
+                      '<div>'+
+                        '<img src="'+data.profilePicUrl+'"  style="margin-bottom: 15px; margin-top: 5px; height: 65px;">'+
+                      '</div>'+
+
+                  '<br>';
+
+            $('#adviceAuthor').html(html);
+
+  };
+
+
+   var getAuthor = function(id){
+
+              AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                            IdentityPoolId: 'us-west-2:318576ae-b109-4473-87a0-800e84c07c24'
+                       });
+                                                                        
+              AWS.config.region = 'us-west-2';
+ 
+                var params = {
+                  TableName: 'users',
+                  Key: {
+                      "userid": id,           
+                  }
+              };
+
+                dynamodb = new AWS.DynamoDB({ region: 'us-west-2' });
+                docClient = new AWS.DynamoDB.DocumentClient({ service: dynamodb });
+
+                docClient.get(params, function(err, data){
+                    if (err) {
+
+                        console.log(JSON.stringify(err, null, 2));
+
+                    } else {
+
+                            console.log('The author object is:');
+                            htmlAuthor(data.Item);
+
+                        }
+                    });
+
+      };
+
+      getAuthor(idAuthor);
+
+      var getQuestion = function(id){
+
+                AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                              IdentityPoolId: 'us-west-2:318576ae-b109-4473-87a0-800e84c07c24'
+                         });
+                                                                          
+                AWS.config.region = 'us-west-2';
+   
+                  var params = {
+                    TableName: 'questions',
+                    Key: { 
+                        "id": id,           
+                    }
+                };
+
+                  dynamodb = new AWS.DynamoDB({ region: 'us-west-2' });
+                  docClient = new AWS.DynamoDB.DocumentClient({ service: dynamodb });
+
+                  docClient.get(params, function(err, data){
+                      if (err) {
+
+                          console.log(JSON.stringify(err, null, 2));
+
+                      } else {
+                              console.log('The question object is:');
+                              htmlQuestion(data.Item);
+                          }
+                      });
+
+        };
+
+        getQuestion(idQuestion);
+
+      var getQuestionComments = function(id){
+
+                AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                              IdentityPoolId: 'us-west-2:318576ae-b109-4473-87a0-800e84c07c24'
+                         });
+                                                                          
+                AWS.config.region = 'us-west-2';
+   
+                var params = {
+
+                    TableName: 'comments',
+                    FilterExpression: "#yr = :start_yr",
+                    ExpressionAttributeNames: { "#yr": "commentId"},
+                    ExpressionAttributeValues: { ":start_yr": id}
+
+                };
+
+                dynamodb = new AWS.DynamoDB({ region: 'us-west-2' });
+                docClient = new AWS.DynamoDB.DocumentClient({ service: dynamodb });
+
+                docClient.scan(params, function(err, data){
+                    if (err) {
+                      
+                    } else {
+
+                        var dataObj = data.Items.sort(function(a, b) {
+                            return parseFloat(a.commentCreated) - parseFloat(b.commentCreated);
+                        });
+
+                        var reversedQ = dataObj.reverse();
+
+                        htmlComments(reversedQ);
+               
+                    }
+                      
+                });
+
+        };
+
+        getQuestionComments(idQuestion);  
+
+   var userId = localStorage.getItem('userId');
+   var username = localStorage.getItem('username');
+   var name = localStorage.getItem('name');
+   var profilePicUrlCheck = localStorage.getItem('profilePicUrl');
+   var profilePicUrl = '';
+   if (profilePicUrlCheck) {
+      console.log('It does not work');
+      profilePicUrl = profilePicUrlCheck;
+   };
+
+   if (userId) {
+
+     $('#adviceComment').show();
+     $('#promptForm').hide();
+     
+   };
+
+    $(function(){
+
+      var socket = io.connect();
+
+      ///// Profile related information
+
+      $('#signOut').hide();
+      $('#login').show();
+      $('#signUp').show();
+
+      if (username) {
+
+          $('#login').hide();
+          $('#signUp').hide();
+          $('#signOut').show();
+          $('#settings').show();
+
+          if (profilePicUrl) {
+              $('#settings').hide();
+              $("#logoImageSrc").attr("src", profilePicUrl);
+              $("#logoImageSrc").show();
+          };
+
+      };
+
+      // on focusOut check event
+      $('#idComment').focusout(function(){
+         var length = $('#idComment').val().length;
+         if (length < 1) {
+
+          $('#err_question').show();
+          setTimeout(function() {
+            $('#err_question').hide();
+          }, 5000);
+
+         };
+      });      
+
+      $('#signOut').click(function(){
+
+          localStorage.clear();
+          $("#logoImageSrc").attr("src", "");
+
+          delete window.profilePicUrl;
+          delete window.name;
+          delete window.userId;
+          delete window.username;
+          signOut();
+          setTimeout(function() {
+            window.location.assign("/");
+          }, 7000);
+
+      });
+
+      $('#adviceCommentForm').submit(function(e){
+        e.preventDefault();
+        console.log('button clicked');
+
+        if ($('#idComment').val().length > 0) {
+
+           if (name.length > 3 && profilePicUrl.length > 3) {
+
+              socket.emit('postQuestionCommentEvent', {answer: $('#idComment').val(), username: username, userId: userId, name: name, profilePicUrl: profilePicUrl, authorEmail: usernameProfile, authorId: useridProfile, authorName: nameProfile, authorProfilePicUrl: profilePicUrlProfile, artid: idQuestion});
+
+              /// Play with DOM - Insert what you just commented
+
+                        $(
+                                  '<div>'+
+
+                                      '<div class="media-left">'+
+                                        '<img src="'+ profilePicUrl +'" style="width:60px">'+
+                                      '</div>'+
+
+                                      '<div class="media-body">'+
+                                          '<blockquote >'+
+                                          '<p><a><b>'+name+'</b></a></p>'+
+                                          '<h4>'+ $('#idComment').val() +'</h4>'+
+                                          '</blockquote>'+                            
+                                      '</div>'+
+
+                                  '</div>'+
+
+                                  '<hr>'
+
+                        ).insertBefore("#adviceCommentsLists");
+
+                        $('#idComment').val('');
+
+              /// Play with DOM - Ends here
+
+           } else {
+
+                console.log('Something should be launched now');
+
+                $("#promptAddUser").show();
+                setTimeout(function(){
+                  $("#promptAddUser").hide();
+                }, 8000);
+
+           };
+
+        } else {
+
+          $('#err_question').show();
+          setTimeout(function() {
+            $('#err_question').hide();
+          }, 5000);
+
+        };
+
+      });
+
+      var signOut = function(){
+             console.log('Sign-Out function called');
+
+                  var data = {
+                      UserPoolId : 'us-west-2_GQQlNpQpu', // Your user pool id here
+                      ClientId : '2fqeeg1m1vno4l5m4jn4n2gnjv' // Your client id here
+                  };
+                  var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(data);
+                  var cognitoUser = userPool.getCurrentUser();
+
+                  if (cognitoUser != null) {
+                      cognitoUser.getSession(function(err, session) {
+                          if (err) {
+                             alert(err);
+                          }
+                          console.log('session validity: ' + session.isValid());
+                          console.log(cognitoUser.username);
+
+                          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                              IdentityPoolId : 'us-west-2:f621a9ab-b4f6-454a-8fed-c2a4aa147af4', // your identity pool id here
+                              Logins : {
+                                  // Change the key below according to the specific region your user pool is in.
+                                  'cognito-idp.us-west-2.amazonaws.com/us-west-2_GQQlNpQpu' : session.getIdToken().getJwtToken()
+                              }
+                          });
+       
+                         AWS.config.region = 'us-west-2';
+
+                          cognitoUser.signOut();
+                          AWS.config.credentials.clearCachedId();
+
+                      });
+
+                    };
+      };   
+
+    });
+
+  $(document).ready(function(){
+    
+      $('[data-toggle="toolMyAdvice"]').tooltip();
+      $('[data-toggle="toolAdvice"]').tooltip();
+      $('[data-toggle="toolVoiceAdvice"]').tooltip();
+      $('[data-toggle="toolQuestions"]').tooltip();
+      $('[data-toggle="toolSettings"]').tooltip();
+      $('[data-toggle="toolFilter"]').tooltip();
+
+  });
+
+  </script>
+   
+</body>
+
+</html>

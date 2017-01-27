@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>buzatina.com</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+<!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- <script src="/js/bootstrap.min.js"></script> -->
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css"> -->
+<link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
+
+
+<script src="moment.min.js"></script>
+<script type="text/javascript" src="jsbn.js"></script>
+<script type="text/javascript" src="jsbn2.js"></script>
+<script type="text/javascript" src="sjcl.js"></script>
+<script type="text/javascript" src="aws-cognito-sdk.min.js"></script>
+<script type="text/javascript" src="amazon-cognito-identity.min.js"></script>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.6.3.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<style>
+
+  body {
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+  }
+
+  h6 {
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+  }
+
+  h5 {
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+  }
+
+  h4 {
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+  }
+
+  h3 {
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+  }
+
+  a {
+    color: #2a2b2b
+  }  
+
+  .navbar {
+      border-bottom: 1px solid #d9d8d5;
+}
+
+</style>
+
+<!-- <script src="access.js" ></script> -->
+
+</head>
+
+<body style="background-color: #fdfdfd">
+
+<nav class="navbar" style=" margin-bottom: 0px; margin-left: 0px; width: 100%; background-color: white;">
+
+    <div class="container-fluid">
+      
+      <!-- Logo -->
+      <div class="navbar-header">
+          
+          <a href="#">
+             <img style="height: 45px; margin-top: 10px; margin-left: 5px; margin-bottom: 5px;" alt="buzatina.com" src="https://s3-us-west-2.amazonaws.com/uploadtebogo/buzatina_logo.JPG"></img>
+          </a>
+          
+          <button style="color: #1b96fe;" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span style="background-color: #4da6ff" class="icon-bar"></span>
+            <span style="background-color: #4da6ff" class="icon-bar"></span>
+            <span style="background-color: #4da6ff" class="icon-bar"></span>
+          </button>
+          <a href="#" class="navbar-left"></a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="myNavbar" style="margin-top: 0px; padding-top: 0px;">
+
+        <ul class="nav navbar-nav navbar-right" style="margin-top: 0px; padding-top: 0px;">
+
+          <li><a href="#" data-toggle="collapse" data-target="#myNavbar"><img style="height: 50px; padding-top: 0px; margin-top: 0px;" src="" id="navProfile"></a></li>
+
+          <li id="signOut"><a style="color: #312929" href="#" data-toggle="collapse" data-target="#myNavbar">Sign Out</a></li>
+ 
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+
+  <div class="row">
+
+    <div class="col-md-3 col-lg-3">   
+ 
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="padding: 10px; margin-left: 10px;">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <h3 class="panel-title w3-center sans"> Please Select Image Below</h3>
+          </div>
+          <div>
+            <img src="" style="height: 350px;" class="w3-center" id="profilePic">
+          </div>
+
+          <div class="loader" style="margin-left: 40%; margin-top: 50px;" ng-show="loading">
+          </div> 
+
+            <div class="panel-body">
+
+              <br>
+
+              <form id="pictureForm" role="form">
+                  <div class="form-group">
+                    <input type="file" id="file-chooser" accept="image/*" />
+                  </div>
+
+                  <span id="err_file" class="w3-text-blue" style="display: none;"><b>Please select image above..</b></span>
+                  <br>
+                  <span id="loading" style="display: none; color: #1b96fe;"><b>Loading...</b></span>
+                  <br>
+
+                  <input type="submit" id="loginSubmit" class="btn btn-lg btn-block w3-center" style="background-color: #696969; color: white;" value="Save"></input>
+
+              </form>
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+              <h3 class="panel-title w3-center sans"> Settings </h3>
+            </div>
+
+            <div class="panel-body">
+
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    
+                    <tbody>
+                      
+                      <tr>
+                        <td>Username</td>
+                        <td><button style="color: #696969;" type="button" class="btn btn-lg" data-toggle="modal" data-target="#userModal"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button></td>
+                      </tr>
+                      
+                      <tr id="displayPassword">
+                        <td>Password</td>
+                        <td><button style="color: #696969;" type="button" class="btn btn-lg" data-toggle="modal" data-target="#passwordModal"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></button></td>
+                      </tr>
+                      
+                      <tr id="displayBusiness">
+                        <td>Business Details </td>
+                        <td><button style="color: #696969;" type="button" class="btn btn-lg" data-toggle="modal" data-target="#businessModal"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span></button></td>
+                      </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+      <!-- Business Modal -->
+        <div class="modal fade" id="businessModal" role="dialog">
+          <div class="modal-dialog">
+          
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please Add Business Details Below</h4>
+              </div>
+              <div class="modal-body">
+ 
+                <form id="businessForm" role="form">
+
+                      <div class="form-group">
+                          <input id="bizName" class="form-control sans" placeholder="Business Name..." type="text"></input>
+                      </div>
+                      <span id="err_bizName" class="w3-text-blue" style="display: none;"><b>Please Add business name above..</b></span>
+
+                      <div class="form-group">
+                          <input id="bizSite" class="form-control sans" placeholder="Business Website..." type="text"></input>
+                      </div>
+
+                      <div class="form-group">
+                          <textarea id="description" class="form-control sans" placeholder="What Does Your Business Do?" type="text"></textarea>
+                      </div>
+                      <span id="err_description" class="w3-text-blue" style="display: none;"><b>Please add what products/services you offer..</b></span>
+
+                      <div class="form-group">
+                          <label>Contact Info:</label>
+
+                        <div class="form-group">
+                            <input id="contactEmail" class="form-control sans" placeholder="business email or phone..." type="text"></input>
+                        </div>
+                        <span  id="err_contactEmail" class="w3-text-blue" style="display: none;"><b>Please add contact info above..</b></span>
+
+                      </div>
+
+                      <input type="submit" class="btn btn-lg btn-block w3-center" style="background-color: #696969; color: white;" value="Save"></input>
+
+                </form>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+  <!--Username Modal -->
+        <div class="modal fade" id="userModal" role="dialog">
+          <div class="modal-dialog">
+          
+            <!-- Modal content-->
+            <div class="modal-content">
+              
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please Add Username Below</h4>
+              </div>
+
+              <div class="modal-body">
+ 
+                <form id="userForm" role="form">
+                      <div class="form-group">
+                        <input id="name" class="form-control sans" placeholder="User Name..." type="text"></input>
+                      </div>
+                      <span id="err_name" class="w3-text-blue" style="display: none;"><b>Please type name above..</b></span>
+
+                      <div class="form-group">
+                          <input id="title" class="form-control sans" placeholder="What you do for a living" type="text"></input>
+                      </div>
+                      <span id="err_title" class="w3-text-blue" style="display: none;"><b>Please type what you do above..</b></span>
+
+                      <input type="submit" class="btn btn-lg btn-block w3-center" style="background-color: #696969; color: white;" value="Save"></input>
+                </form>
+
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+
+  <!--passwordChange Modal -->
+        <div class="modal fade" id="passwordModal" role="dialog">
+          <div class="modal-dialog">
+          
+            <!-- Modal content-->
+            <div class="modal-content">
+              
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please Add Username Below</h4>
+              </div>
+
+              <div class="modal-body">
+ 
+                <form id="passwordChangeForm" role="form">
+
+                    <fieldset>
+
+                        <div class="form-group">
+                            <input id="oldPassword" class="form-control sans" placeholder="Current Password...." name="email" type="password"></input>
+                        </div>
+                        <span id="err_oldPassword" class="w3-text-blue" style="display: none;"><b>Please type current password above..</b></span>
+
+                        <div class="form-group">
+                          <input id="newPassword" class="form-control sans" placeholder="New Password...." name="password" type="password" value=""></input>
+                        </div>
+                        <span id="err_newPassword" class="w3-text-blue" style="display: none;"><b>Please type new password above..</b></span>
+                        
+                        <input type="submit" class="btn btn-lg btn-block" style="background-color: #696969; color: white;" value="Change Password"></input>
+
+                    </fieldset>
+
+                </form>
+
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+    </div>
+
+    <div class="col-sm-3 col-md-3 col-lg-3 hidden-xs hidden-sm">    
+
+    </div>
+
+  </div>
+
+  <script>
+
+    var username;
+    var userId;
+    var profilePicUrl ='';
+    var name;
+
+    var socket = io.connect();
+
+    var setUserThings = function(data){
+          console.log('Retrieved the user');
+          console.log(data);
+
+          if (data.profilePicUrl) {
+             $("#profilePic").attr("src", data.profilePicUrl);
+             $("#navProfile").attr("src", data.profilePicUrl);         
+          };
+
+          if (data.Username) {
+             $("#name").val(data.Username);          
+          };
+          
+          if (data.profession) {
+             $("#title").val(data.profession);            
+          };
+
+          if (data.bizName) {
+             $("#bizName").val(data.bizName);            
+          };
+
+          if (data.description) {
+             $("#description").val(data.description);            
+          };
+
+          if (data.bizSite) {
+             $("#bizSite").val(data.bizSite);            
+          };
+
+          if (data.description) {
+             $("#contactEmail").val(data.contactEmail);            
+          };
+
+          name =data.Username;
+          profilePicUrl = data.profilePicUrl;
+
+          localStorage.setItem('name', data.Username);
+          localStorage.setItem('profilePicUrl', data.profilePicUrl);
+          $("#logoImageSrc").attr("src", profilePicUrl);
+
+      };    
+
+      var getUserFromTable = function(userId){
+
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                      IdentityPoolId: 'us-west-2:318576ae-b109-4473-87a0-800e84c07c24'
+                 });
+                                                                  
+        AWS.config.region = 'us-west-2';
+
+          var params = {
+            TableName: 'users',
+            Key: {
+                "userid": userId,           
+            }
+        };
+
+          dynamodb = new AWS.DynamoDB({ region: 'us-west-2' });
+          docClient = new AWS.DynamoDB.DocumentClient({ service: dynamodb });
+
+          docClient.get(params, function(err, data){
+              if (err) {
+
+                  console.log(JSON.stringify(err, null, 2));
+
+              } else {
+                      console.log('User retrieved');
+                      setUserThings(data.Item);
+
+                  }
+              });
+
+      };
+
+    passwordChange = function(oldPassword, newPassword){
+
+                var data = {
+                    UserPoolId : 'us-west-2_GQQlNpQpu', // Your user pool id here
+                    ClientId : '2fqeeg1m1vno4l5m4jn4n2gnjv' // Your client id here
+                };
+
+                var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(data);
+
+                var cognitoUser = userPool.getCurrentUser();
+
+                if (cognitoUser != null) {
+                    cognitoUser.getSession(function(err, session) {
+                        if (err) {
+                           alert(err);
+                        }
+                        console.log('session validity: ' + session.isValid());
+                        console.log(cognitoUser.username);
+
+                        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                            IdentityPoolId : 'us-west-2:f621a9ab-b4f6-454a-8fed-c2a4aa147af4', // your identity pool id here
+                            Logins : {
+                                // Change the key below according to the specific region your user pool is in.
+                                'cognito-idp.us-west-2.amazonaws.com/us-west-2_GQQlNpQpu' : session.getIdToken().getJwtToken()
+                            }
+                        });
+                        
+                      // Instantiate aws sdk service objects now that the credentials have been updated.
+                      // example: var s3 = new AWS.S3();
+                                                        //Upload to DynamoDB
+                       AWS.config.region = 'us-west-2';
+
+                            cognitoUser.changePassword(oldPassword, newPassword, function(err, result) {
+                                if (err) {
+                                    console.log(err);
+                                    return;
+
+                                }else{
+
+                                    console.log('password was changed');
+
+                                };
+
+                            });
+      
+                    });                               
+
+                  };
+    };    
+
+    var getCurrent = function(){
+
+    var userUniqKey = '';
+
+    var data = {
+        UserPoolId : 'us-west-2_GQQlNpQpu', // Your user pool id here
+        ClientId : '2fqeeg1m1vno4l5m4jn4n2gnjv' // Your client id here
+    };
+
+    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(data);
+
+    var cognitoUser = userPool.getCurrentUser();
+
+    if (cognitoUser != null) {
+        cognitoUser.getSession(function(err, session) {
+            if (err) {
+               alert(err);
+            }
+
+            username = cognitoUser.username;
+
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                IdentityPoolId : 'us-west-2:f621a9ab-b4f6-454a-8fed-c2a4aa147af4', // your identity pool id here
+                Logins : {
+                    // Change the key below according to the specific region your user pool is in.
+                    'cognito-idp.us-west-2.amazonaws.com/us-west-2_GQQlNpQpu' : session.getIdToken().getJwtToken()
+                }
+            });
+
+            var useriduserid = '';
+            cognitoUser.getUserAttributes(function(err, result) {
+                if (err) {
+                    return;
+                } else {
+                    
+                    userId = result[2].Value;
+
+                    localStorage.setItem('userId', userId);
+                    localStorage.setItem('username', username);
+                    getUserFromTable(result[2].Value);
+
+                    console.log('userId is ' + userId + ' and username is' + username);
+
+                    $('#login').hide();
+                    $('#signUp').hide();
+                    $('#signOut').show();                    
+   
+                }
+
+            }); 
+
+        });          
+
+      };
+
+    };
+
+    var signOut = function(){
+           console.log('Sign-Out function called');
+
+                var data = {
+                    UserPoolId : 'us-west-2_GQQlNpQpu', // Your user pool id here
+                    ClientId : '2fqeeg1m1vno4l5m4jn4n2gnjv' // Your client id here
+                };
+                var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(data);
+                var cognitoUser = userPool.getCurrentUser();
+
+                if (cognitoUser != null) {
+                    cognitoUser.getSession(function(err, session) {
+                        if (err) {
+                           alert(err);
+                        }
+                        console.log('session validity: ' + session.isValid());
+                        console.log(cognitoUser.username);
+
+                        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                            IdentityPoolId : 'us-west-2:f621a9ab-b4f6-454a-8fed-c2a4aa147af4', // your identity pool id here
+                            Logins : {
+                                // Change the key below according to the specific region your user pool is in.
+                                'cognito-idp.us-west-2.amazonaws.com/us-west-2_GQQlNpQpu' : session.getIdToken().getJwtToken()
+                            }
+                        });
+     
+                       AWS.config.region = 'us-west-2';
+
+                        cognitoUser.signOut();
+                        localStorage.clear();
+                        AWS.config.credentials.clearCachedId();
+                        setTimeout(function() {
+                          window.location.assign("/");
+                        }, 12000);
+
+                    });
+
+                  };
+    };    
+
+    $(function(){
+
+      $('#login').show();
+      $('#signUp').show();
+      $('#signOut').hide();
+
+      getCurrent();
+
+      $('#signOut').click(function(){
+          signOut();
+      });
+
+    $('#userForm').submit(function(e){
+      e.preventDefault();
+
+          if ($('#name').val().length > 0) {
+            if ($('#title').val().length > 0) {
+               socket.emit('userUpdateEvent', {userId: userId, email: username, name: $('#name').val(), title: $('#title').val()});
+               $('#userModal').modal('hide');
+            } else {
+              // alert error
+
+              $('#err_title').show();
+              setTimeout(function() {
+                $('#err_title').hide();
+              }, 5000);
+
+            };
+
+          } else {
+          //alert error
+
+              $('#err_name').show();
+              setTimeout(function() {
+                $('#err_name').hide();
+              }, 5000);
+        };
+
+    });
+
+    $('#pictureForm').submit(function(e){
+      e.preventDefault();
+      var fileChooser = document.getElementById('file-chooser');
+      var file = fileChooser.files[0];
+
+      if (file) {
+        socket.emit('pictureEvent', {userId: userId, username: username, file: file});
+        console.log('Event emitted');
+        $("#loginSubmit").attr("disabled", true);
+        $('#loading').show();
+
+        setTimeout(function() {
+          window.location.assign('/settings');
+        }, 12000);
+
+      } else {
+          $('#err_file').show();
+          setTimeout(function() {
+            $('#err_file').hide();
+          }, 5000);
+      };
+
+    });    
+
+    $('#businessForm').submit(function(e){
+      e.preventDefault();
+
+          if ($('#bizName').val().length > 0) {
+            if ($('#description').val().length > 0) {
+              if ($('#contactEmail').val().length) {
+
+                 socket.emit('businessEvent', {userId: userId, username: username, bizName: $('#bizName').val(), bizSite: $('#bizSite').val(), description: $('#description').val(), contactEmail: $('#contactEmail').val()});
+                 $('#businessModal').modal('hide');
+
+              } else{
+                  $('#err_contactEmail').show();
+                  setTimeout(function() {
+                    $('#err_contactEmail').hide();
+                  }, 5000);
+              };
+
+            } else {
+              // alert error
+
+              $('#err_description').show();
+              setTimeout(function() {
+                $('#err_description').hide();
+              }, 5000);
+
+            };
+          } else{
+          //alert error
+              $('#err_bizName').show();
+              setTimeout(function() {
+                $('#err_bizName').hide();
+              }, 5000);
+        };
+    });
+
+    $('#passwordChangeForm').submit(function(e){
+
+      e.preventDefault();
+
+          if ($('#oldPassword').val().length > 0) {
+            if ($('#newPassword').val().length > 0) {
+               passwordChange($('#oldPassword').val(), $('#newPassword').val());
+               $('#passwordModal').modal('hide');
+            } else {
+              // alert error
+
+              $('#err_newPassword').show();
+              setTimeout(function() {
+                $('#err_newPassword').hide();
+              }, 5000);
+
+            };
+          } else{
+          //alert error
+              $('#err_oldPassword').show();
+              setTimeout(function() {
+                $('#err_oldPassword').hide();
+              }, 5000);
+        };
+    });
+
+  })
+
+  $(document).ready(function(){
+      $('[data-toggle="toolMyAdvice"]').tooltip();
+      $('[data-toggle="toolAdvice"]').tooltip();
+      $('[data-toggle="toolVoiceAdvice"]').tooltip();
+      $('[data-toggle="toolQuestions"]').tooltip();
+      $('[data-toggle="toolSettings"]').tooltip();
+      $('[data-toggle="toolFilter"]').tooltip();
+  });
+
+  </script>
+   
+</body>
+
+</html>
